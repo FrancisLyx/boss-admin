@@ -1,23 +1,25 @@
+import { registerAs } from '@nestjs/config'
 import { join } from 'path'
+export default registerAs('database', () => {
+	const toBool = (v: string | undefined, def = false) => {
+		if (v === undefined) return def
+		return ['true', '1', 'on', 'yes'].includes(String(v).toLowerCase())
+	}
 
-export default () => {
 	return {
 		type: 'mysql',
-		host: process.env.DB_HOST || 'localhost',
-		port: parseInt(process.env.DB_PORT) || 3307,
-		username: process.env.DB_USERNAME || 'root',
-		password: process.env.DB_PASSWORD || '',
-		database: process.env.DB_DATABASE || 'boss_admin',
-		entities: [join(__dirname, '../', '**/**.entity{.ts,.js}')],
-		synchronize: process.env.NODE_ENV !== 'production',
-		logging: process.env.NODE_ENV === 'development',
+		host: process.env.DB_HOST,
+		port: process.env.DB_PORT,
+		username: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD,
+		database: process.env.DB_DATABASE,
+		entities: [join(__dirname, '..', '**', '*.entity{.ts,.js}')],
+		synchronize: toBool(process.env.DB_SYNCHRONIZE, process.env.NODE_ENV !== 'production'),
+		logging: false,
 		retryAttempts: 3,
 		retryDelay: 3000,
 		autoLoadEntities: true,
-		timeout: 60000,
-		acquireTimeout: 60000,
-		extra: {
-			connectionLimit: 10
-		}
+		connectTimeout: 60000,
+		poolSize: 10
 	}
-}
+})
