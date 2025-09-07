@@ -1,0 +1,21 @@
+services:
+    boss-admin-mysql:
+        image: mysql:8.0
+        ports:
+            - '3307:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: boss_admin
+            MYSQL_DATABASE: boss_admin
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: admin123
+            MYSQL_CHARSET: utf8mb4
+            MYSQL_COLLATION: utf8mb4_unicode_ci
+        volumes:
+            - ./container/boss-admin-mysql:/var/lib/mysql
+        healthcheck:
+            test: mysqladmin ping -h localhost -P 3307 -u root -p$$MYSQL_ROOT_PASSWORD
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 40s
+        restart: unless-stopped

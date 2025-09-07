@@ -5,13 +5,15 @@
 	"type": "module",
 	"main": "index.js",
 	"scripts": {
-		"dev": "pnpm dev:core",
-		"dev:core": "pnpm --filter core dev",
+		"dev:fe": "pnpm --filter frontend-admin dev",
+		"dev:backend": "pnpm --filter backend-admin start:dev",
 		"lint": "eslint --fix",
 		"lint:style": "stylelint \"{packages,apps}/**/*.{css,vue}\"",
 		"spellcheck": "cspell lint --dot --gitignore --color --cache --show-suggestions \"(packages|apps)/**/*.@(html|js|cjs|mjs|ts|tsx|css|scss|md|vue)\"",
 		"commit": "git-cz",
-		"prepare": "husky"
+		"prepare": "husky",
+		"docker:up": "docker compose -f .container/docker-compose.yml up -d",
+		"docker:down": "docker compose -f .container/docker-compose.yml down"
 	},
 	"config": {
 		"commitizen": {
