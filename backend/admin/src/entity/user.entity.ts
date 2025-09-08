@@ -1,31 +1,33 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm'
+
+export type UserRole = 'admin' | 'user'
 
 @Entity({ name: 'user' })
 export class UserEntity {
-	@PrimaryGeneratedColumn()
-	id: number
+  @PrimaryGeneratedColumn('uuid')
+  id: string
 
-	@Column()
-	username: string
+  @Column()
+  name: string
 
-	@Column()
-	password: string
+  @Column({ unique: true })
+  email: string
 
-	@Column({ nullable: true })
-	sex: string
+  @Column()
+  password: string
 
-	@Column({ nullable: true })
-	email: string
+  @Column({ type: 'varchar', default: 'user' })
+  role: UserRole
 
-	@Column({ nullable: true })
-	phone: string
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date
 
-	@Column({ nullable: true })
-	role: string
-
-	@Column({ nullable: true })
-	createdAt: Date
-
-	@Column({ nullable: true })
-	updatedAt: Date
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date
 }
