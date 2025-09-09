@@ -1,0 +1,4 @@
+# Base API endpoint for the admin frontend
+# Change this to your backend URL or gateway path.
+VITE_API_BASE=/api
+

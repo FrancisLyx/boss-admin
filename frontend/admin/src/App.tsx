@@ -1,15 +1,30 @@
 import './App.css'
-import Counter from './components/request'
+import { Suspense, useEffect } from 'react'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { routes } from '@/router'
+import { useAuth } from '@/store/auth'
+import Spinner from '@/components/common/Spinner'
+
+const router = createBrowserRouter(routes)
 
 function App() {
+	const { bootstrap } = useAuth()
+
+	useEffect(() => {
+		bootstrap()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	return (
-		<>
-			<div>
-				<Counter></Counter>
-			</div>
-			<h1>Vite + React</h1>
-		</>
+		<Suspense
+			fallback={
+				<div className="min-h-dvh grid place-items-center">
+					<Spinner size={32} />
+				</div>
+			}
+		>
+			<RouterProvider router={router} />
+		</Suspense>
 	)
 }
 

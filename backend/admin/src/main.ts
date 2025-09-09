@@ -6,6 +6,10 @@ import { TransformInterceptor } from './common/interceptors/transform.intercepto
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
+
+	// 设置全局API前缀
+	app.setGlobalPrefix('api')
+
 	// pipe 校验
 	app.useGlobalPipes(
 		new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true })
